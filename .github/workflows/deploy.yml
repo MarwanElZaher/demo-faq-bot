@@ -52,7 +52,7 @@ jobs:
           script: |
             set -euo pipefail
             echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
-            cd /home/marwanelzaher/ai-company/maros-lab-starter
+            cd /home/marwanelzaher/ai-company/demo-faq-bot
             IMAGE_TAG="${IMAGE_TAG}" docker compose -f docker-compose.prod.yml config --quiet
             IMAGE_TAG="${IMAGE_TAG}" docker compose -f docker-compose.prod.yml pull
             IMAGE_TAG="${IMAGE_TAG}" docker compose -f docker-compose.prod.yml up -d --remove-orphans
@@ -63,8 +63,8 @@ jobs:
 #   VPS_HOST          — VPS IP or hostname (e.g. 45.97.140.41)
 #   GHCR_DEPLOY_PAT   — GitHub PAT with read:packages scope for VPS docker login
 #
-# One-time VPS bootstrap at /home/marwanelzaher/ai-company/maros-lab-starter/
-#   git clone <repo-url> /home/marwanelzaher/ai-company/maros-lab-starter
+# One-time VPS bootstrap at /home/marwanelzaher/ai-company/demo-faq-bot/
+#   git clone <repo-url> /home/marwanelzaher/ai-company/demo-faq-bot
 #   cp .env.example .env && chmod 600 .env  # fill in all values
 #
 # Required .env vars on VPS (on top of .env.example app vars):
