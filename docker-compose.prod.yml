@@ -1,20 +1,35 @@
-version: "3.9"
-
 services:
   app:
     image: ${GHCR_IMAGE}:${IMAGE_TAG:-latest}
     restart: unless-stopped
     env_file: .env
+    depends_on:
+      - db
     networks:
       - n8n_default
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.maros-lab-starter.rule=Host(`${APP_HOST}`)"
-      - traefik.http.routers.maros-lab-starter.entrypoints=web,websecure
-      - traefik.http.routers.maros-lab-starter.tls=true
-      - traefik.http.routers.maros-lab-starter.tls.certresolver=mytlschallenge
-      - traefik.http.services.maros-lab-starter.loadbalancer.server.port=3000
+      - "traefik.http.routers.demo-faq-bot.rule=Host(`${APP_HOST}`)"
+      - traefik.http.routers.demo-faq-bot.entrypoints=web,websecure
+      - traefik.http.routers.demo-faq-bot.tls=true
+      - traefik.http.routers.demo-faq-bot.tls.certresolver=mytlschallenge
+      - traefik.http.services.demo-faq-bot.loadbalancer.server.port=3000
       - traefik.docker.network=n8n_default
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-demo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demo}
+      POSTGRES_DB: ${POSTGRES_DB:-demo_faq_bot}
+    volumes:
+      - demo-faq-bot-db:/var/lib/postgresql/data
+    networks:
+      - n8n_default
+
+volumes:
+  demo-faq-bot-db:
 
 networks:
   n8n_default:
