@@ -61,3 +61,24 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// ---------------------------------------------------------------------------
+// FAQ Bot (demo engagement: NovaTech internal knowledge base)
+// ---------------------------------------------------------------------------
+
+model FaqEntry {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FaqQuery {
+  id          String   @id @default(cuid())
+  userMessage String   @db.Text
+  aiResponse  String   @db.Text
+  cached      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
